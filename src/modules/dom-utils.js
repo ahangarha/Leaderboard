@@ -3,6 +3,7 @@ import { fetchScores } from './api-utils.js';
 
 const leaderboardWrapper = document.getElementById('leaderboard-wrapper');
 const leaderboardForm = document.getElementById('leaderboard-form');
+const refreshButton = document.getElementById('refresh-btn');
 
 const theLeaders = new Leaderboard();
 
@@ -39,12 +40,15 @@ leaderboardForm.addEventListener('submit', (event) => {
   event.target.score.value = '';
 });
 
-async function init() {
+refreshButton.addEventListener('click', async (event) => {
+  event.preventDefault();
   const leaders = (await fetchScores(API_URL)).result;
 
+  // clear existing leaders on the board
+  leaderboardWrapper.innerHTML = '';
+
+  // add leaders to the board
   leaders.forEach((leader) => {
     addToPage(leader);
   });
-}
-
-init();
+});
