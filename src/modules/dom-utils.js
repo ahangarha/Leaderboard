@@ -1,17 +1,22 @@
 import Leaderboard from './leaderboard.js';
+import { fetchScores } from './api-utils.js';
 
 const leaderboardWrapper = document.getElementById('leaderboard-wrapper');
 const leaderboardForm = document.getElementById('leaderboard-form');
 
 const theLeaders = new Leaderboard();
 
-function addToPage({ name, score }) {
+const URL = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api';
+const gameID = 'DimCxZfu4FFAkICfsuHw';
+const API_URL = `${URL}/games/${gameID}/scores/`;
+
+function addToPage({ user, score }) {
   const li = document.createElement('li');
-  const nameElement = document.createElement('p');
-  nameElement.innerText = name;
+  const userElement = document.createElement('p');
+  userElement.innerText = user;
   const scoreElement = document.createElement('span');
   scoreElement.innerText = score;
-  li.appendChild(nameElement);
+  li.appendChild(userElement);
   li.appendChild(scoreElement);
 
   leaderboardWrapper.appendChild(li);
@@ -34,8 +39,9 @@ leaderboardForm.addEventListener('submit', (event) => {
   event.target.score.value = '';
 });
 
-function init() {
-  const leaders = theLeaders.loadFromStorage();
+async function init() {
+  const leaders = (await fetchScores(API_URL)).result;
+
   leaders.forEach((leader) => {
     addToPage(leader);
   });
