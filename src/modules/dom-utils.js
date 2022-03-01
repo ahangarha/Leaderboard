@@ -42,6 +42,10 @@ leaderboardForm.addEventListener('submit', (event) => {
 
 refreshButton.addEventListener('click', async (event) => {
   event.preventDefault();
+
+  // add loading while fetching data for better UX
+  leaderboardWrapper.innerHTML = '<li><p>loading...</p></li>';
+
   const leaders = (await fetchScores(API_URL)).result;
 
   // clear existing leaders on the board
