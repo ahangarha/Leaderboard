@@ -4,6 +4,10 @@
 
 This is an educational project to make a To Do List web application without using JS frameworks.
 
+## Screenshot
+
+![Leaderboard screenshot](./screenshot.png)
+
 ## Built With
 
 - HTML5
