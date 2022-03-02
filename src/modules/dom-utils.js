@@ -1,4 +1,4 @@
-import { fetchScores } from './api-utils.js';
+import { addScore, fetchScores } from './api-utils.js';
 
 const leaderboardWrapper = document.getElementById('leaderboard-wrapper');
 const leaderboardForm = document.getElementById('leaderboard-form');
@@ -36,16 +36,7 @@ async function refreshLeaderboard() {
 }
 
 async function addNewScore(user, score) {
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify({
-      user,
-      score,
-    }),
-  });
+  const response = await addScore(API_URL, user, score);
 
   if (response.status === 201) {
     refreshLeaderboard();
