@@ -20,6 +20,21 @@ function addToPage({ user, score }) {
   leaderboardWrapper.appendChild(li);
 }
 
+async function refreshLeaderboard() {
+  // add loading while fetching data for better UX
+  leaderboardWrapper.innerHTML = '<li><p>loading...</p></li>';
+
+  const leaders = (await fetchScores(API_URL)).result;
+
+  // clear existing leaders on the board
+  leaderboardWrapper.innerHTML = '';
+
+  // add leaders to the board
+  leaders.forEach((leader) => {
+    addToPage(leader);
+  });
+}
+
 async function addNewScore(user, score) {
   const response = await fetch(API_URL, {
     method: 'POST',
@@ -33,15 +48,7 @@ async function addNewScore(user, score) {
   });
 
   if (response.status === 201) {
-    const leaders = (await fetchScores(API_URL)).result;
-
-    // clear existing leaders on the board
-    leaderboardWrapper.innerHTML = '';
-
-    // add leaders to the board
-    leaders.forEach((leader) => {
-      addToPage(leader);
-    });
+    refreshLeaderboard();
   }
 }
 
@@ -59,17 +66,5 @@ leaderboardForm.addEventListener('submit', (event) => {
 
 refreshButton.addEventListener('click', async (event) => {
   event.preventDefault();
-
-  // add loading while fetching data for better UX
-  leaderboardWrapper.innerHTML = '<li><p>loading...</p></li>';
-
-  const leaders = (await fetchScores(API_URL)).result;
-
-  // clear existing leaders on the board
-  leaderboardWrapper.innerHTML = '';
-
-  // add leaders to the board
-  leaders.forEach((leader) => {
-    addToPage(leader);
-  });
+  refreshLeaderboard();
 });
