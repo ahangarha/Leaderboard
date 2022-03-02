@@ -23,9 +23,29 @@ function addToPage({ user, score }) {
   leaderboardWrapper.appendChild(li);
 }
 
-function addNewScore(name, score) {
-  const newLeader = theLeaders.addLeader({ name, score });
-  if (newLeader) addToPage(newLeader);
+async function addNewScore(user, score) {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({
+      user,
+      score,
+    }),
+  });
+
+  if (response.status === 201) {
+    const leaders = (await fetchScores(API_URL)).result;
+
+    // clear existing leaders on the board
+    leaderboardWrapper.innerHTML = '';
+
+    // add leaders to the board
+    leaders.forEach((leader) => {
+      addToPage(leader);
+    });
+  }
 }
 
 leaderboardForm.addEventListener('submit', (event) => {
