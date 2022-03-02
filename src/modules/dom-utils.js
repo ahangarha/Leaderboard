@@ -1,11 +1,8 @@
-import Leaderboard from './leaderboard.js';
 import { fetchScores } from './api-utils.js';
 
 const leaderboardWrapper = document.getElementById('leaderboard-wrapper');
 const leaderboardForm = document.getElementById('leaderboard-form');
 const refreshButton = document.getElementById('refresh-btn');
-
-const theLeaders = new Leaderboard();
 
 const URL = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api';
 const gameID = 'DimCxZfu4FFAkICfsuHw';
