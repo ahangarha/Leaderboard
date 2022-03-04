@@ -5,7 +5,7 @@ const leaderboardForm = document.getElementById('leaderboard-form');
 const refreshButton = document.getElementById('refresh-btn');
 
 const URL = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api';
-const gameID = 'DimCxZfu4FFAkICfsuHw';
+const gameID = 'DimCxZfu4FFAkICfsuHx';
 const API_URL = `${URL}/games/${gameID}/scores/`;
 
 function addToPage({ user, score }) {
