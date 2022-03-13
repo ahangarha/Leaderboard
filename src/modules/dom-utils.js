@@ -25,12 +25,13 @@ async function refreshLeaderboard() {
   leaderboardWrapper.innerHTML = '<li><p>loading...</p></li>';
 
   const leaders = (await fetchScores(API_URL)).result;
+  const sortedLeaders = leaders.sort((a, b) => b.score - a.score);
 
   // clear existing leaders on the board
   leaderboardWrapper.innerHTML = '';
 
   // add leaders to the board
-  leaders.forEach((leader) => {
+  sortedLeaders.forEach((leader) => {
     addToPage(leader);
   });
 }
